@@ -24,6 +24,7 @@ export class Login {
 
   login()
   {
+    
     this.http.get("http://sutte.techcraftz.com/api/auth/generate_auth_cookie/?insecure=cool&username="+this.username+"&password="+this.password)
     .subscribe( (res) => {
         console.log(res.json());

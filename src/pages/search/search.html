@@ -7,6 +7,7 @@
 <ion-header>
 
   <ion-navbar>
+     <!-- loader {{loader}} -->
     <ion-title>Search : {{ searchQuery }}</ion-title>
   </ion-navbar>
 
@@ -15,6 +16,10 @@
 
 <ion-content padding>
   <ion-list>
+
+    <ion-item padding center *ngIf="loader"> 
+        <ion-spinner name="bubbles"></ion-spinner>
+    </ion-item>  
     <ion-item *ngFor="let product of products" text-wrap  (click)="openProductPage(product)">
       <ion-thumbnail item-left>
         <img [src]="product.featured_src" />

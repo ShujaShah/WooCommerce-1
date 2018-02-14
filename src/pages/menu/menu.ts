@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, Events } from 'ionic-angular';
-// import { HomePage } from '../home/home';
+import { HomePage } from '../home/home';
 // import { Signup } from '../signup/signup';
 // import { Login } from '../login/login';
 import * as WC from 'woocommerce-api';
@@ -122,12 +122,17 @@ export class Menu {
   }
 
   openCategoryPage(category) {
-
     this.childNavCtrl.setRoot('ProductsByCategory', { "category": category });
-
   }
 
   openPage(pageName: string) {
+
+    if(pageName=="Home")
+    {
+      // this.navCtrl.setRoot('HomePage'); 
+      // this.navCtrl.popToRoot();  
+      this.childNavCtrl.setRoot('HomePage');
+    }
     if (pageName == "signup") {
       this.navCtrl.push('Signup');
     }

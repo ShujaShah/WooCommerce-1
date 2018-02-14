@@ -87,7 +87,8 @@ export class HomePage {
     this.navCtrl.push('ProductDetails', {"product": product} );
   }
 
-  onSearch(event){
+  onSearch(){
+    console.log("Calll");
     if(this.searchQuery.length > 0){
       this.navCtrl.push('SearchPage', {"searchQuery": this.searchQuery});
     }

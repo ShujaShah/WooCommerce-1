@@ -7,7 +7,7 @@
   </ion-navbar>
 
   <ion-toolbar color="danger">
-    <ion-searchbar [(ngModel)]="searchQuery" (search)="onSearch($event)"></ion-searchbar>
+    <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="onSearch($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

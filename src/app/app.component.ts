@@ -18,9 +18,6 @@ export class MyApp {
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public oneSignal: OneSignal) {
     this.initializeApp();
-
-
-
   }
 
   initializeApp() {

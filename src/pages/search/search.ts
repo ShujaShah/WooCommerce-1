@@ -14,15 +14,19 @@ export class SearchPage {
   WooCommerce: any;
   products: any[] = [];
   page: number = 2;
+  loader:boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private WP: WoocommerceProvider) {
     console.log(this.navParams.get("searchQuery"));
+    this.loader=true;
     this.searchQuery = this.navParams.get("searchQuery");
 
     this.WooCommerce = WP.init();
 
     this.WooCommerce.getAsync("products?filter[q]=" + this.searchQuery).then((searchData) => {
       this.products = JSON.parse(searchData.body).products;
+
+      this.loader=false;
     });
 
 
