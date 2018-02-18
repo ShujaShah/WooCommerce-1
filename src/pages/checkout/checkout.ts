@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import * as WC from 'woocommerce-api';
-// import { HomePage } from '../home/home';
-// import { Menu } from '../menu/menu';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
 import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
 
@@ -36,19 +34,12 @@ export class Checkout {
       this.WooCommerce = WP.init();
 
     this.storage.get("userLoginInfo").then((userLoginInfo) => {
-
-      this.userInfo = userLoginInfo.user;
-
-      let email = userLoginInfo.user.email;
-
+      this.userInfo = userLoginInfo;
+      let email = userLoginInfo.email;
       this.WooCommerce.getAsync("customers/email/" + email).then((data) => {
-
         this.newOrder = JSON.parse(data.body).customer;
-
       })
-
     })
-
   }
 
   setBillingToShipping() {
@@ -170,11 +161,11 @@ export class Checkout {
         let orderData: any = {};
 
         orderData.order = data;
-
+         
+        console.log("Orders========"+JSON.stringify(orderData));
         this.WooCommerce.postAsync("orders", orderData).then((data) => {
-
           let response = (JSON.parse(data.body).order);
-
+          console.log("order successfully created");
           this.alertCtrl.create({
             title: "Order Placed Successfully",
             message: "Your order has been placed successfully. Your order number is " + response.order_number,
@@ -185,7 +176,8 @@ export class Checkout {
               }
             }]
           }).present();
-
+        },(err)=>{
+          console.log("Error in 182 =========="+err);
         })
 
       })

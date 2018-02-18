@@ -8,9 +8,11 @@
   <ion-content class="card-background-page">
 
     <ion-card>
-      <img src="./assets/images/rock.png" />
-      <div class="card-title">WOOIONIC</div>
-      <div class="card-subtitle">Keep Shopping</div>
+
+      
+      <img src="./assets/images/sideLogo.png" />
+      <!-- <div class="card-title">WOOIONIC</div> -->
+      <!-- <div class="card-subtitle">Keep Shopping</div> -->
     </ion-card>
 
 
@@ -62,6 +64,11 @@
         <ion-icon name="contact" item-left large></ion-icon>
         <h2>{{ (this.user.firstname == '' ? this.user.username : this.user.firstname) || "" }}</h2>
         <p>Welcome</p>
+      </ion-item>
+
+      <ion-item  (click)="openPage('orders')" *ngIf="loggedIn" menuClose>
+          <ion-icon name="contact" item-left large></ion-icon>
+          <h2>Orders</h2>
       </ion-item>
 
       <ion-item *ngIf="loggedIn" (click)="openPage('cart')" menuClose>

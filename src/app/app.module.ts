@@ -20,6 +20,7 @@ import { PayPal } from '@ionic-native/paypal';
 import { IonicStorageModule } from '@ionic/storage';
 import { OneSignal } from "@ionic-native/onesignal";
 import { WoocommerceProvider } from '../providers/woocommerce/woocommerce';
+import { SessionServiceProvider } from '../providers/session-service/session-service';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { WoocommerceProvider } from '../providers/woocommerce/woocommerce';
     PayPal,
     OneSignal,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    WoocommerceProvider
+    WoocommerceProvider,
+    SessionServiceProvider
   ]
 })
 export class AppModule {}

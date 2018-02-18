@@ -136,5 +136,5 @@
 </ion-content>
 
 <ion-footer>
-  <button ion-button block color="danger" (click)="signup()">Sign Up</button>
+  <button ion-button block color="danger" (click)="signup()" [disabled]="loader">Sign Up <ion-spinner name="bubbles" *ngIf="loader"></ion-spinner></button>
 </ion-footer>

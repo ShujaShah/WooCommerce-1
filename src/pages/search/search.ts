@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController,Events } from 'ionic-angular';
 import * as WC from 'woocommerce-api';
 import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
 
@@ -16,7 +16,7 @@ export class SearchPage {
   page: number = 2;
   loader:boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private WP: WoocommerceProvider) {
+  constructor(public events:Events, public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private WP: WoocommerceProvider) {
     console.log(this.navParams.get("searchQuery"));
     this.loader=true;
     this.searchQuery = this.navParams.get("searchQuery");
@@ -31,7 +31,18 @@ export class SearchPage {
 
 
   }
+ 
+  ionViewDidLeave()
+  {
+    console.log("Page did leave now");
+    this.events.publish("close:search");
+  }
 
+  ionViewWillLeave()
+  {
+    console.log("Page will leave now");
+    // this.events.publish("close:search");
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchPage');
   }

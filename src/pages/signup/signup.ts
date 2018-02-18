@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import * as WC from 'woocommerce-api';
 import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
+import { Storage } from '@ionic/storage';
+
 declare var WooCommerceAPI: any;
 @IonicPage({})
 @Component({
@@ -10,12 +12,12 @@ declare var WooCommerceAPI: any;
 })
 export class Signup {
 
-
+  loader:boolean;
   newUser: any = {};
   billing_shipping_same: boolean;
   WooCommerce: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public alertCtrl: AlertController, private WP: WoocommerceProvider) {
+  constructor(public storage:Storage,public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public alertCtrl: AlertController, private WP: WoocommerceProvider) {
 
     this.newUser.billing_address = {};
     this.newUser.shipping_address = {};
@@ -82,6 +84,41 @@ export class Signup {
 
   signup(){
 
+      if(!this.newUser.first_name)
+      {
+        this.showMessage("Please Enter First Name");
+        return;
+      }
+      if(!this.newUser.email)
+      {
+        this.showMessage("Please Enter Email");
+        return;
+      }
+
+      if(!this.newUser.username)
+      {
+        this.showMessage("Please Enter UserName");
+        return;
+      }
+
+      if(!this.newUser.password)
+      {
+        this.showMessage("Please Enter Password");
+        return;
+      }
+
+      if(!this.newUser.confirm_password)
+      {
+        this.showMessage("Please Enter Confirm Password");
+        return;
+      }
+
+      if(this.newUser.password!=this.newUser.confirm_password)
+      {
+        this.showMessage("Confirm Password Not Match");
+        return;
+      }
+      this.loader=true;
       let customerData = {
         customer : {}
       }
@@ -125,7 +162,7 @@ export class Signup {
       this.WooCommerce.postAsync('customers', customerData).then( (data) => {
 
         let response = (JSON.parse(data.body));
-
+        this.loader=false;
         if(response.customer){
           this.alertCtrl.create({
             title: "Account Created",
@@ -145,10 +182,23 @@ export class Signup {
         }
 
       }, (err) => {
+        this.loader=false;
         console.log("Error==========="+err);
+        this.toastCtrl.create({
+          message:"Something Went Wrong Please Try Again",
+          showCloseButton: true
+        }).present();
       })
 
     
+    }
+
+    showMessage(message)
+    {
+      this.toastCtrl.create({
+        message:message,
+        showCloseButton: true
+      }).present(); 
     }
 
 }

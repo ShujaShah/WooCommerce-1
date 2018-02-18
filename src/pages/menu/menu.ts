@@ -1,6 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, Events,AlertController } from 'ionic-angular';
 import { HomePage } from '../home/home';
+import { OrdersPage } from '../orders/orders';
+
+
 // import { Signup } from '../signup/signup';
 // import { Login } from '../login/login';
 import * as WC from 'woocommerce-api';
@@ -23,7 +26,7 @@ export class Menu {
   loggedIn: boolean;
   user: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public modalCtrl: ModalController, private events: Events, private WP: WoocommerceProvider) {
+  constructor(public alertCtrl:AlertController,public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public modalCtrl: ModalController, private events: Events, private WP: WoocommerceProvider) {
     this.homePage = 'HomePage';
     this.categories = [];
     this.user = {};
@@ -133,6 +136,11 @@ export class Menu {
       // this.navCtrl.popToRoot();  
       this.childNavCtrl.setRoot('HomePage');
     }
+
+    if(pageName=="orders")
+    {
+      this.childNavCtrl.setRoot('OrdersPage');
+    }
     if (pageName == "signup") {
       this.navCtrl.push('Signup');
     }
@@ -140,10 +148,31 @@ export class Menu {
       this.navCtrl.push('Login');
     }
     if (pageName == 'logout') {
-      this.storage.remove("userLoginInfo").then(() => {
-        this.user = {};
-        this.loggedIn = false;
-      })
+
+
+      this.alertCtrl.create({
+        title: "Logout Confirmation",
+        message: "Are You Sure You Want To Logout?",
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              // console.log('Cancel clicked');
+            }
+          },  
+          {
+          text: "OK",
+          role:'cancel',
+          handler: () => {
+            this.storage.remove("userLoginInfo").then(() => {
+              this.user = {};
+              this.loggedIn = false;
+            })
+          } 
+        }]
+      }).present();
+     
     }
     if (pageName == 'cart') {
       let modal = this.modalCtrl.create(Cart);

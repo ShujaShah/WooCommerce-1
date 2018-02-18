@@ -12,7 +12,11 @@
 
 
 <ion-content>
+
   <ion-list>
+    <ion-item class="center-loader" *ngIf="loader">
+        <ion-spinner name="bubbles"></ion-spinner>
+    </ion-item>  
     <ion-item *ngFor="let product of products" text-wrap  (click)="openProductPage(product)">
       <ion-thumbnail item-left>
         <img [src]="product.featured_src" />

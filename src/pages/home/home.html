@@ -7,7 +7,7 @@
   </ion-navbar>
 
   <ion-toolbar color="danger">
-    <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="onSearch($event)"></ion-searchbar>
+    <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="onSearch($event)" [disabled]="searchQuery.length>0"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -23,6 +23,10 @@
 
   <img style="margin-top: 10px;" src="./assets/images/banner2.jpg" />
 
+
+  <ion-item class="center-loader" *ngIf="loader">
+      <ion-spinner name="bubbles"></ion-spinner>
+  </ion-item>  
   <ion-grid>
     <ion-row>
       <ion-slides #productSlides>

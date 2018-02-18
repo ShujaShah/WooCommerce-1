@@ -11,8 +11,8 @@ export class WoocommerceProvider {
     this.Woocommerce = WC({
       url: "http://sutte.techcraftz.com",
       verifySsl:false, 
-      consumerKey: "ck_c5a56b7f429167776557be12bbba4045c364f929",
-      consumerSecret: "cs_21a42e77364a8a834de90cb68f79f64d5c32ff2a",
+      consumerKey: "ck_ec3169ff56f6f9b62605b63d9ebd0e78c6391de2",
+      consumerSecret: "cs_3052b1757119a6a5fd29916f105ee3a42637ce5a",
       // wpAPI: true,
       // version: 'wc/v1'
     });

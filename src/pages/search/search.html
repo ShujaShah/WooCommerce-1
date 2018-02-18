@@ -17,9 +17,14 @@
 <ion-content padding>
   <ion-list>
 
-    <ion-item padding center *ngIf="loader"> 
+    <ion-item class="center-loader" *ngIf="loader"> 
         <ion-spinner name="bubbles"></ion-spinner>
     </ion-item>  
+
+    <ion-item class="center-img" *ngIf="!loader && products.length==0"> 
+        <img style="margin-top: 10px;" src="./assets/images/noProduct.png" />
+    </ion-item>
+
     <ion-item *ngFor="let product of products" text-wrap  (click)="openProductPage(product)">
       <ion-thumbnail item-left>
         <img [src]="product.featured_src" />

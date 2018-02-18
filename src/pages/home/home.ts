@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, Slides, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, Slides, ToastController,Events } from 'ionic-angular';
 // import { ProductDetails } from '../product-details/product-details';
 
 import * as WC from 'woocommerce-api';
 // import { SearchPage } from "../search/search";
 import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
+import { setTimeout } from 'timers';
 
 @IonicPage({})
 @Component({
@@ -18,24 +19,29 @@ export class HomePage {
   moreProducts: any[];
   page: number;
   searchQuery: string = "";
+  loader:boolean;
 
   @ViewChild('productSlides') productSlides: Slides;
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, private WP: WoocommerceProvider) {
-
+  constructor(public events:Events,public navCtrl: NavController, public toastCtrl: ToastController, private WP: WoocommerceProvider) {
+   
+    console.log("Fetching data");
+    this.loader=true;
     this.page = 2;
-
+    this.searchQuery="";
     this.WooCommerce = WP.init();
 
     this.loadMoreProducts(null);
 
     this.WooCommerce.getAsync("products").then( (data) => {
+
+      console.log("Fetching products")
+      this.loader=false;
       console.log(JSON.parse(data.body));
       this.products = JSON.parse(data.body).products;
     }, (err) => {
       console.log(err)
     })
-
   }
 
   ionViewDidLoad(){
@@ -46,6 +52,12 @@ export class HomePage {
 
       this.productSlides.slideNext();
     }, 3000)
+
+    this.events.unsubscribe('close:search');  
+    this.events.subscribe('close:search',search=>{
+      console.log("close searh call");
+      this.searchQuery="";
+    })
   }
 
   loadMoreProducts(event){
@@ -88,10 +100,14 @@ export class HomePage {
   }
 
   onSearch(){
-    console.log("Calll");
-    if(this.searchQuery.length > 0){
-      this.navCtrl.push('SearchPage', {"searchQuery": this.searchQuery});
-    }
+    if(this.navCtrl.getActive().name=='HomePage')
+    {
+      if(this.searchQuery.length > 0){
+        console.log("Call psuh");
+        this.navCtrl.push('SearchPage', {"searchQuery": this.searchQuery}); 
+        console.log("current page==="+this.navCtrl.getActive().name);
+      }
+    }  
   }
 
 }

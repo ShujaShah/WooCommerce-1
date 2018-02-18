@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams ,ToastController} from 'ionic-angular';
 import * as WC from 'woocommerce-api';
 import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
-// import { ProductDetails } from '../product-details/product-details';
+import { ProductDetails } from '../product-details/product-details';
 
 @IonicPage({})
 @Component({
@@ -15,9 +15,10 @@ export class ProductsByCategory {
   products: any[];
   page: number;
   category: any;
+  loader:boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private WP: WoocommerceProvider) {
-
+  constructor(public toastCtrl: ToastController,public navCtrl: NavController, public navParams: NavParams, private WP: WoocommerceProvider) {
+    this.loader=true;
     this.page = 1;
     this.category = this.navParams.get("category");
 
@@ -26,8 +27,15 @@ export class ProductsByCategory {
     this.WooCommerce.getAsync("products?filter[category]=" + this.category.slug).then((data) => {
       console.log(JSON.parse(data.body));
       this.products = JSON.parse(data.body).products;
+      this.loader=false;
     }, (err) => {
-      console.log(err)
+      console.log("Error======="+err)
+      this.loader=false;
+      this.toastCtrl.create({
+        message:"Something went wrong please try again",
+        duration: 2000
+      }).present();
+      return;
     })
 
   }
