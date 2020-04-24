@@ -32,7 +32,7 @@ export class OrdersPage {
     this.storage.get("userLoginInfo").then((userLoginInfo) => {
 
       console.log("User info=="+JSON.stringify(userLoginInfo));
-      this.WooCommerce.getAsync("orders?customer="+userLoginInfo.id).then( (data) => {
+      this.WooCommerce.getAsync("orders?filter[customer_id]="+userLoginInfo.id).then( (data) => {
         this.orders = JSON.parse(data.body).orders;
         this.loader=false;
         console.log("Order get Successfully===="+JSON.stringify(this.orders));
