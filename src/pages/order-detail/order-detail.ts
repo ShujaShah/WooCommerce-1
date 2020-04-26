@@ -73,10 +73,10 @@ export class OrderDetailPage {
   //   });
   // }
    
-
+ const data = {"order":{"status":"cancelled"}}
 
       
-    this.WooCommerce.putAsync("orders/372",this.order).then( (data) => {
+    this.WooCommerce.putAsync("orders/"+this.order.id, data).then( (data) => {
       this.loader=false;
       console.log("order info after update====="+JSON.stringify(data));
       this.service.showToast("Successfully Cancel Order");
